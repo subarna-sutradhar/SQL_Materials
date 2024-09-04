@@ -1,0 +1,157 @@
+﻿SQL-Subquery Exercise
+
+    1. Display the name of the employees from the Sales department.
+     SELECT
+  FIRST_NAME,
+  LAST_NAME
+FROM
+  EMPLOYEE
+WHERE
+  DEPARTMENT_ID = (
+    SELECT
+      DEPARTMENT_ID
+    FROM
+      DEPARTMENT
+    WHERE
+      DEPARTMENT_NAME = 'Sales'
+  );
+
+
+    2. Display employees' names who work for a department in Canada.
+    SELECT
+  E.FIRST_NAME,
+  E.LAST_NAME
+FROM
+  EMPLOYEE AS E
+WHERE
+  DEPARTMENT_ID IN (
+    SELECT
+      DEPARTMENT_ID
+    FROM
+      DEPARTMENT
+    WHERE
+      LOCATION_ID IN (
+        SELECT
+          LOCATION_ID
+        FROM
+          LOCATION
+        WHERE
+          COUNTRY_ID IN (
+            SELECT
+              COUNTRY_ID
+            FROM
+              COUNTRY
+            WHERE
+              COUNTRY_NAME = 'Canada'
+          )
+      )
+  );
+
+
+    3. Write a query to identify all the employees who earn more than the
+            average and who work in any of the Marketing departments.
+
+   SELECT                                                                
+  FIRST_NAME,
+  LAST_NAME
+FROM
+  EMPLOYEE
+WHERE
+  Sal > (
+    SELECT
+      avg (Sal)
+    FROM
+      EMPLOYEE
+    WHERE
+      DEPARTMENT_ID = '20'
+  )
+
+
+
+
+
+
+    4. Display records of those employees whose department is in Mexico City.
+
+SELECT
+  *
+FROM
+  EMPLOYEES
+WHERE
+  DEPARTMENT_ID IN (
+    SELECT
+      DEPARTMENT_ID
+    FROM
+      DEPARTMENT
+    WHERE
+      LOCATION_ID IN (
+        SELECT
+          LOCATION_ID
+        FROM
+          LOCATION
+        WHERE
+          CITY = 'MEXICO CITY'
+      )
+  );
+
+
+
+    5. Display records for the department which is located in the city of Tokyo.
+
+     SELECT
+  *
+FROM
+  DEPARTMENT
+WHERE
+  LOCATION_ID IN (
+    SELECT
+      LOCATION_ID
+    FROM
+      LOCATION
+    WHERE
+      CITY = 'Tokyo'
+  );
+
+    6. Display employee id and name for all employees whose department location
+is London.
+
+SELECT
+  EMPLOYEE ID,
+  FIRST NAME,
+  LAST NAME
+FROM
+  EMPLOYEES
+WHERE
+  DEPARTMENT_ID IN (
+    SELECT
+      DEPARTMENT_ID
+    FROM
+      DEPARTMENT
+    WHERE
+      LOCATION_ID IN (
+        SELECT
+          LOCATION_ID
+        FROM
+          LOCATION
+        WHERE
+          CITY = 'London'
+      )
+  );
+
+    7. Display all information of the employees who
+don’t work in those departments manager id within the range 200 and 300.
+
+SELECT
+  *
+FROM
+  EMPLOYEES
+WHERE
+  MANAGER_ID NOT IN (
+    SELECT
+      MANAGER_ID
+    FROM
+      DEPARTMENT
+    WHERE
+      MANAGER_ID BETWEEN 200
+      AND 300
+  );
